@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,8 +15,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,28 +37,31 @@ class task1 : ComponentActivity() {
 
 @Composable
 fun mainComposableSecondActivity() {
-    var color = remember {
-        mutableStateOf(true)
-    }
+    var isBlue by remember { mutableStateOf(true) }
 
-    Scaffold {
-        Modifier.padding(it)
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Button(
-
-                colors = ButtonDefaults.buttonColors(containerColor = if(color.value) Color.Blue else Color.Green, contentColor = if (color.value) Color.White else Color.Black),
-                onClick = {
-                    color.value = !color.value
-                }) {
-                Text(text = "Click Me", fontWeight = FontWeight.Bold)
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        content = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isBlue) Color.Blue else Color.Magenta,
+                        contentColor = Color.White
+                    ),
+                    onClick = { isBlue = !isBlue }
+                ) {
+                    Text(text = if (isBlue) "Click Me To And See Magic" else "Yeah! Saw the Magic.. han... han...", fontWeight = FontWeight.Bold)
+                }
             }
         }
-    }
+    )
 }
+
 
 @Preview(showBackground = true)
 @Composable

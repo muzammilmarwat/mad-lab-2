@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -34,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -58,69 +60,51 @@ class Task2 : ComponentActivity() {
 
 @Composable
 fun mainComposableTask3() {
-    val data = listOf(
-        mapOf(
-            "image" to painterResource(id = R.drawable.ironman),
-            "title" to "Iron Man\n",
-            "release" to "Tales of Suspense #39 in December 1962"
-        ),
-        mapOf(
-            "image" to painterResource(id = R.drawable.blackwidow), 
-            "title" to "Black Widow\n",
-            "release" to "May 7, 2021"
-        ),
-        mapOf(
-            "image" to painterResource(id = R.drawable.deadpool), 
-            "title" to "Deadpool\n",
-            "release" to "February 12, 2016"
-        ),
-        mapOf(
-            "image" to painterResource(id = R.drawable.hulk), 
-            "title" to "The Incredible Hulk\n",
-            "release" to "June 13, 2008"
-        ),
-        mapOf(
-            "image" to painterResource(id = R.drawable.thor), 
-            "title" to "Thor\n",
-            "release" to "May 6, 2011"
-        ),
-        mapOf(
-            "image" to painterResource(id = R.drawable.wolverine), 
-            "title" to "X-Men Origins: Wolverine\n",
-            "release" to "May 1, 2009"
-        )
+    val itemsData = listOf(
+        Triple(painterResource(id = R.drawable.ironman), "Iron Man", "Tales of Suspense #39 in December 1962"),
+        Triple(painterResource(id = R.drawable.blackwidow), "Black Widow", "May 7, 2021"),
+        Triple(painterResource(id = R.drawable.deadpool), "Deadpool", "February 12, 2016"),
+        Triple(painterResource(id = R.drawable.hulk), "The Incredible Hulk", "June 13, 2008"),
+        Triple(painterResource(id = R.drawable.thor), "Thor", "May 6, 2011"),
+        Triple(painterResource(id = R.drawable.wolverine), "X-Men Origins: Wolverine", "May 1, 2009")
     )
 
-
-    LazyColumn {
-        items(data, key = { it }) { item ->
-            ListItem(
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.LightGray)
+            .padding(8.dp)
+    ) {
+        items(itemsData) { (image, title, release) ->
+            Card(
                 modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 10.dp)
-                    .background(color = Color.White),
-                colors = ListItemDefaults.colors(Color.White),
-
-                headlineContent = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Image(
-                            item["image"] as Painter,
-                            contentDescription = "Iron Man",
-                            Modifier.size(100.dp)
-                        )
-                        Column {
-                            Text(text = item["title"] as String, fontSize = 22.sp)
-
-                            Text(text = item["release"] as String)
-                        }
+                    .fillMaxWidth()
+                    .padding(8.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .background(Color.White)
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Image(
+                        painter = image,
+                        contentDescription = title,
+                        modifier = Modifier.size(80.dp)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(text = title, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(text = release, fontSize = 16.sp)
                     }
-                },
-            )
+                }
+            }
         }
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
